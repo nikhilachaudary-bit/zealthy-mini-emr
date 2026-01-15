@@ -2,16 +2,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "postinstall": "npx prisma generate",
-    "vercel-build": "npx prisma generate && npx prisma migrate deploy && next build",
-    "seed": "npx prisma db seed",
-    "prisma:generate": "npx prisma generate",
-    "prisma:migrate:dev": "npx prisma migrate dev",
-    "prisma:migrate:deploy": "npx prisma migrate deploy"
+    "start": "next start"
   },
   "dependencies": {
-    "@prisma/client": "^5.10.2",
-    "prisma": "^5.10.2"
+    "@prisma/client": "5.22.0",
+    "prisma": "5.22.0"
   }
 }
