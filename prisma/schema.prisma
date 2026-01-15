@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum RepeatSchedule {
+  none
+  weekly
+  monthly
+}
+
+enum RefillSchedule {
+  none
+  weekly
+  monthly
+}
+
+model Patient {
+  id           Int            @id @default(autoincrement())
+  name         String
+  email        String         @unique
+  passwordHash String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  appointments  Appointment[]
+  prescriptions Prescription[]
+}
+
+model Appointment {
+  id          Int            @id @default(autoincrement())
+  patientId   Int
+  provider    String
+  startAt     DateTime
+  repeat      RepeatSchedule @default(none)
+  repeatUntil DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  patient Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
+
+  @@index([patientId])
+  @@index([startAt])
+}
+
+model Prescription {
+  id             Int            @id @default(autoincrement())
+  patientId      Int
+  medication     String
+  dosage         String
+  quantity       Int
+  refillOn       DateTime
+  refillSchedule RefillSchedule @default(none)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  patient Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
+
+  @@index([patientId])
+  @@index([refillOn])
+}
+
+model MedicationOption {
+  id        Int            @id @default(autoincrement())
+  name      String         @unique
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  dosages DosageOption[]
+}
+
+model DosageOption {
+  id           Int              @id @default(autoincrement())
+  medicationId Int
+  value        String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  medication MedicationOption @relation(fields: [medicationId], references: [id], onDelete: Cascade)
+
+  @@unique([medicationId, value])
+  @@index([medicationId])
+}
