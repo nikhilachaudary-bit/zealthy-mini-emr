@@ -3,11 +3,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-
     "postinstall": "npx prisma generate",
-
     "vercel-build": "next build",
-
     "prisma:generate": "npx prisma generate",
     "prisma:migrate:dev": "npx prisma migrate dev",
     "prisma:migrate:deploy": "npx prisma migrate deploy"
