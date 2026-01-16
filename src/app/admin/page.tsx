@@ -1,11 +1,18 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 
-
 export const dynamic = "force-dynamic";
 
+type PatientRow = {
+  id: number;
+  name: string;
+  email: string;
+  appointments: { id: number }[];
+  prescriptions: { id: number }[];
+};
+
 export default async function AdminHome() {
-  const patients = await prisma.patient.findMany({
+  const patients: PatientRow[] = await prisma.patient.findMany({
     orderBy: { id: "asc" },
     select: {
       id: true,
@@ -18,46 +25,43 @@ export default async function AdminHome() {
 
   return (
     <main style={{ padding: 24, maxWidth: 1100, margin: "0 auto" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-        <h1 style={{ margin: 0 }}>Mini EMR</h1>
-        <Link href="/admin/patients/new" style={{ textDecoration: "none" }}>
-          New patient
-        </Link>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <h1>Admin</h1>
+        <Link href="/admin/patients/new">New patient</Link>
       </div>
 
-      <div style={{ border: "1px solid rgba(255,255,255,0.12)", borderRadius: 14, overflow: "hidden" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "80px 1fr 1fr 140px 140px 120px", gap: 0, padding: 12, opacity: 0.85 }}>
-          <div>ID</div>
-          <div>Name</div>
-          <div>Email</div>
-          <div>Appointments</div>
-          <div>Prescriptions</div>
-          <div>Open</div>
-        </div>
-        <div style={{ borderTop: "1px solid rgba(255,255,255,0.12)" }} />
+      <div style={{ marginTop: 24, display: "grid", gap: 12 }}>
         {patients.map((p) => (
-          <div
+          <Link
             key={p.id}
+            href={`/admin/patients/${p.id}`}
             style={{
-              display: "grid",
-              gridTemplateColumns: "80px 1fr 1fr 140px 140px 120px",
-              padding: 12,
-              borderTop: "1px solid rgba(255,255,255,0.08)",
-              alignItems: "center",
+              display: "flex",
+              justifyContent: "space-between",
+              padding: 16,
+              borderRadius: 12,
+              border: "1px solid rgba(255,255,255,0.15)",
+              textDecoration: "none",
+              color: "inherit",
             }}
           >
-            <div>{p.id}</div>
-            <div>{p.name}</div>
-            <div>{p.email}</div>
-            <div>{p.appointments.length}</div>
-            <div>{p.prescriptions.length}</div>
             <div>
-              <Link href={`/admin/patients/${p.id}`} style={{ textDecoration: "none" }}>
-                View
-              </Link>
+              <div style={{ fontWeight: 600 }}>{p.name}</div>
+              <div style={{ opacity: 0.8 }}>{p.email}</div>
             </div>
-          </div>
+
+            <div style={{ display: "flex", gap: 16, alignItems: "center", opacity: 0.85 }}>
+              <div>Appointments: {p.appointments.length}</div>
+              <div>Prescriptions: {p.prescriptions.length}</div>
+            </div>
+          </Link>
         ))}
+
+        {!patients.length && (
+          <div style={{ opacity: 0.7, marginTop: 32 }}>
+            No patients yet.
+          </div>
+        )}
       </div>
     </main>
   );
