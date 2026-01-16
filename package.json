@@ -1,23 +1,29 @@
 {
+  "name": "zealthy-mini-emr",
+  "version": "1.0.0",
+  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-
     "postinstall": "npx prisma generate",
     "vercel-build": "next build",
-
     "prisma:generate": "npx prisma generate",
     "prisma:migrate:dev": "npx prisma migrate dev",
     "prisma:migrate:deploy": "npx prisma migrate deploy"
   },
   "dependencies": {
     "@prisma/client": "5.22.0",
+    "bcryptjs": "^2.4.3",
     "next": "14.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "prisma": "5.22.0"
+    "@types/node": "25.0.9",
+    "@types/react": "^19.2.8",
+    "@types/react-dom": "^19.2.3",
+    "prisma": "5.22.0",
+    "typescript": "^5.3.3"
   }
 }
