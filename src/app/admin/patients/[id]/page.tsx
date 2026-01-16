@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import AdminPatientDetailClient from "@/app/admin/patients/[id]/patientDetailClient";
+import AdminPatientDetailClient from "./patientDetailClient";
 
 export const dynamic = "force-dynamic";
 
