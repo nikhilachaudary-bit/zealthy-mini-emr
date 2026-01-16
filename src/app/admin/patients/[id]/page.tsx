@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { prisma } from "@/app/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import AdminPatientDetailClient from "@/app/admin/patients/[id]/patientDetailClient";
 
 export const dynamic = "force-dynamic";
@@ -26,15 +26,28 @@ export default async function AdminPatientDetailPage(props: { params: Promise<{ 
   const threeMonths = new Date(now);
   threeMonths.setMonth(threeMonths.getMonth() + 3);
 
-  const appointments = await prisma.appointment.findMany({
-    where: { patientId, startAt: { gte: now, lte: threeMonths } },
+  const appointmentsRaw = await prisma.appointment.findMany({
+    where: { patientId },
     orderBy: { startAt: "asc" },
   });
+  
+  const appointments = appointmentsRaw.map((a) => ({
+    ...a,
+    startAt: a.startAt.toISOString(),
+    repeatUntil: a.repeatUntil ? a.repeatUntil.toISOString() : null,
+  }));
+  
+  
 
-  const prescriptions = await prisma.prescription.findMany({
-    where: { patientId, refillOn: { gte: now, lte: threeMonths } },
-    orderBy: { refillOn: "asc" },
+  const prescriptionsRaw = await prisma.prescription.findMany({
+    where: { patientId },
   });
+  
+  const prescriptions = prescriptionsRaw.map((p) => ({
+    ...p,
+    refillOn: p.refillOn.toISOString(),
+  }));
+  
 
   return (
     <main style={{ padding: 24, maxWidth: 1100, margin: "0 auto" }}>

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import { prisma } from "@/app/lib/prisma";
+import { prisma } from "@/lib/prisma";
+
 import { setSessionPatientId } from "@/app/lib/session";
 
 export async function POST(req: Request) {

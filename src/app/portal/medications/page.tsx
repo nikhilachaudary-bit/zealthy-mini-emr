@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { prisma } from "@/app/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { getPatientIdFromCookie } from "@/app/lib/getPatientIdFromCookie";
 
 export default async function PortalMedications() {

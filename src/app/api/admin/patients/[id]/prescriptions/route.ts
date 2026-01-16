@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/app/lib/prisma";
+import { prisma } from "@/lib/prisma";
+
 import { RefillSchedule } from "@prisma/client";
 
 export async function POST(req: Request, ctx: { params: Promise<{ id: string }> }) {

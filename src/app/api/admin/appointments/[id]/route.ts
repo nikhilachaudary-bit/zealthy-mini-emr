@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/app/lib/prisma";
+import { prisma } from "@/lib/prisma";
+
 import { RepeatSchedule } from "@prisma/client";
 
 export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }> }) {

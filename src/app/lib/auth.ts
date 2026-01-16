@@ -1,6 +1,7 @@
 // src/app/lib/auth.ts
 import { redirect } from "next/navigation";
-import { prisma } from "@/app/lib/prisma";
+import { prisma } from "@/lib/prisma";
+
 import { getPatientIdFromCookie } from "@/app/lib/getPatientIdFromCookie";
 
 export async function requirePatient() {

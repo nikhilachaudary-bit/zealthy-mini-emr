@@ -1,4 +1,4 @@
-import { prisma } from "@/app/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { getSessionPatientId } from "@/app/lib/session";
 import { redirect } from "next/navigation";
 
